@@ -474,6 +474,16 @@ ul { list-style: none; }
 .form__hint.ok { color: var(--gold); }
 .form__hint.err { color: #C97A64; }
 
+/* 镜像站点提示（仅在非主站域名显示） */
+.form__note {
+  font-size: 12.5px; line-height: 1.75; letter-spacing: .02em;
+  color: var(--gold); opacity: .88;
+  border-left: 1px solid var(--gold);
+  padding: 2px 0 2px 14px;
+  margin-bottom: 26px;
+}
+.form__note[hidden] { display: none; }
+
 /* =========================================================
    页脚
    ========================================================= */

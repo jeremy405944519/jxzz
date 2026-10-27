@@ -136,9 +136,13 @@
     const emailEl = document.getElementById('email');
     const messageEl = document.getElementById('message');
     const submitBtn = form.querySelector('button[type="submit"]');
-    const submitLabel = submitBtn ? submitBtn.textContent : '';
+    let submitLabel = submitBtn ? submitBtn.textContent : '';
     const COOLDOWN_MS = 30000;
     let sending = false;
+
+    // 云服务按 Origin 校验，镜像站（GitHub Pages 等）无法写库，
+    // 此时表单降级为邮件发送，同一份代码两处都能用
+    const canSubmit = !(window.JXZZ && window.JXZZ.canSubmit === false);
 
     function setHint(msg, type) {
       hint.textContent = msg;
@@ -186,7 +190,37 @@
       }
     }
 
+    /* 镜像站兜底：把表单内容拼成邮件，交给客户端发送 */
+    function submitByMail() {
+      const mail = (window.JXZZ && window.JXZZ.fallbackEmail) || '';
+      const name = nameEl.value.trim();
+      const company = companyEl.value.trim();
+      const email = emailEl.value.trim();
+      const message = messageEl.value.trim();
+
+      const subject = '官网留言 · ' + name;
+      const lines = [
+        '姓名：' + name,
+        company ? '公司：' + company : '',
+        '邮箱：' + email,
+        message ? '需求：' + message : ''
+      ].filter(Boolean);
+
+      const href =
+        'mailto:' + mail +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(lines.join('\n'));
+
+      window.location.href = href;
+      setHint('已为你打开邮件客户端，发送后我们会在 1 个工作日内回复。', 'ok');
+    }
+
     async function submitMessage() {
+      if (!canSubmit) {
+        submitByMail();
+        return;
+      }
+
       const cloud = window.JXZZ && window.JXZZ.cloud;
       if (!cloud) {
         setHint('云端服务未加载成功，请刷新页面后重试，' + fallbackTip(), 'err');
@@ -231,6 +265,16 @@
       markSent();
       setHint('提交成功，我们会在 1 个工作日内与您联系。', 'ok');
       form.reset();
+    }
+
+    // 镜像站：提示留言走邮件，按钮文案同步调整
+    if (!canSubmit) {
+      const note = document.getElementById('formNote');
+      if (note) note.hidden = false;
+      if (submitBtn) {
+        submitLabel = '通过邮件发送';
+        submitBtn.textContent = submitLabel;
+      }
     }
 
     form.addEventListener('submit', (e) => {
