@@ -451,6 +451,12 @@ ul { list-style: none; }
 }
 .contact__info .k { flex: 0 0 52px; font-size: 10.5px; letter-spacing: .22em; color: var(--text-3); }
 .contact__info .v { font-size: 14px; color: var(--text); letter-spacing: .03em; }
+.contact__info .v a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .35s, border-color .35s;
+}
+.contact__info .v a:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
 .contact__form { display: grid; gap: 30px; border-top: 1px solid var(--line-strong); padding-top: 44px; }
 .field label {

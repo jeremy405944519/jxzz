@@ -24,7 +24,7 @@
   var PRIMARY_HOST = 'jxzz-official.app.workbuddy.host';
 
   // 联系邮箱：兜底渠道（与页脚保持一致，替换真实邮箱时同步修改）
-  var FALLBACK_EMAIL = 'contact@jxzz-tech.com';
+  var FALLBACK_EMAIL = 'jialiang.2016@foxmail.com';
 
   var canSubmit =
     typeof location !== 'undefined' && location.hostname === PRIMARY_HOST;
