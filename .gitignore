@@ -1,0 +1,17 @@
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# ---- 本地调试临时产物 ----
+# 临时预览页、切片截图等，均为本地校验用，不入库
+_*.html
+_*.png
+*.log
+
+# ---- 依赖与构建产物（本站零构建，此处为将来预留）----
+node_modules/
+dist/
